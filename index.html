@@ -1,0 +1,24 @@
+<!--
+ Allan: For the UI Guy, This is just a sample I made for testing my  PHP Script and AJAX scripts. You may extend or rewrite
+ this html file, and create a CSS file for the design. -->
+<html>
+	<head>
+		<title>Awesome Search Engine</title>
+	</head>
+	<!--	Allan: highly recommended that you preserve the id names (such as "search_form") or atleast the
+			convention (underscores) so that I do not have to change some jQuery 
+			selectors -->
+	<form id="search_form" method="post">
+		<label for="search_text">Search Course Code:</label>
+		<input id="search_text" name="search_text" type="text" value="" />
+		
+		<input type="submit" value="Go" />
+	</form>
+	<div id="search_result_div">
+		<table id="search_result_table">
+		</table>
+	</div>
+	//don't forget to add this if you plan to rewrite the html file
+	<script type="text/javascript" src="jquery-2.1.3.min.js"></script>
+	<script type="text/javascript" src="search.js"></script>
+</html>
