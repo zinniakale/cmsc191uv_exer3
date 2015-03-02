@@ -4,12 +4,15 @@ easier code reading. Also, I removed the student data and only retained
 the course data because the sql dump is too big for you to download. The
 course table only has 500+ rows
 
+Fred: coursedesc data @ https://drive.google.com/file/d/0B8uzdX41KxwGd0R4a2xhTzlGX1U
+
+
 TODO:
 
 [√] base database class
 [√] base search script
 [√] Grade5 User Interface HTML
 [  ] Analysis of MATCH AGAINST mySQL function
-[  ] Search Result Ranking Algorithm
-[  ] Course desc data
+[  ] Search Result Ranking Algorithms
+[√] Course desc data
 [  ] Non-grade5 User Interface (HTML + CSS)
