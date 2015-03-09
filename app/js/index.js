@@ -1,5 +1,5 @@
 /*
-	TADA! Here's our new 'hindi-pang-grade-6' UI - JS component!
+	TADA! Here's our new 'hindi-pang-grade-5' UI - JS component!
 	Hope you guys like it.
 	
 	P.S. don't forget to remove this part before submission. Thanks.
