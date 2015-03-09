@@ -9,7 +9,7 @@ class Database{
 		$username = "root";
 		$password = "";
 		$hostname = "localhost";
-		$dbname = "unindexed";
+		$dbname = "cmsc191uv_exer3";
 		
 		$this->connection = mysqli_connect($hostname, $username, $password, $dbname);
 		
@@ -29,25 +29,20 @@ class Database{
 		mysqli_close($this->connection);
 	}
 }
+
 $db = new Database;
 $db->connect();
 
-/*
-	We're gonna put the Search Ranking algorithm here
-	
-	@output: final $sql string
-*/
-
-//sample query output
-$sql = "SELECT coursedesc FROM course";
+$query = $_POST['query'];
+$sql = "SELECT *, MATCH(coursedesc) AGAINST('".$query."') AS score FROM course WHERE MATCH(coursedesc) AGAINST('".$query."') ORDER BY score DESC";
 $result = $db->query($sql);
+$rows = array();
 
 //fetch all result rows and store them in an array;
-while($row = $result->fetch_row()){
-	$rows[] = $row[0];
+while($row = mysqli_fetch_row($result)){
+	array_push($rows, $row);
 }
 
 //encode first to json for easier parsing on the javascript side
 echo json_encode($rows);
-
 ?>

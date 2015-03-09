@@ -6,6 +6,8 @@ course table only has 500+ rows
 
 Fred: coursedesc data @ https://drive.google.com/file/d/0B8uzdX41KxwGd0R4a2xhTzlGX1U
 
+Nelo: the new index location is in the 'app' directory (localhost/< directory >/app/index.html) while the new search php is in the 'server' directory (localhost/< directory >/server/search.php)
+
 
 TODO:
 
@@ -15,4 +17,4 @@ TODO:
 [  ] Analysis of MATCH AGAINST mySQL function
 [  ] Search Result Ranking Algorithms
 [√] Course desc data
-[  ] Non-grade5 User Interface (HTML + CSS)
+[√] Non-grade5 User Interface (HTML + CSS)
