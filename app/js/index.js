@@ -254,10 +254,10 @@ $(document).ready(function() {
 			$(child).css({
 				top : '15px',
 				opacity : 0
-			}).delay(delay*100).animate({
+			}).delay(delay*200).animate({
 				top : '0px',
 				opacity : 1
-			}, 300, function() {
+			}, 400, function() {
 				$(this).removeClass('insert');
 			});
 		};
