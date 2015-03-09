@@ -232,15 +232,22 @@ $(document).ready(function() {
 		},
 
 		// this is where tha algorithm 1 for sorting and ranking the results will be put
-		rankUsingAlgo1 = function(array) {
-			var result = array;
+		rankUsingAlgo1 = function(arr) {
+			var result = [];
 
+			$.each(arr, function(i, item) {
+				var desc = item[2];
+				var words = $(desc).split(' ');
+				$.each()
+			});
+
+			// use solvelcs
 
 			return result;
 		},
 
 		// this is where the algorithm 2 for sorting and ranking the results will be put
-		rankUsingAlgo2 = function(array) {
+		rankUsingAlgo2 = function(arr) {
 			var result = array;
 
 			
@@ -260,6 +267,34 @@ $(document).ready(function() {
 			}, 400, function() {
 				$(this).removeClass('insert');
 			});
+		},
+
+		solveLCS = function(word1, word2) {
+			var length1 = word1.length;
+			var length2 = word2.length;
+			var c = new Array(length1+1);
+			$.each(c, function(i, val) {
+				c[i] = new Array(length2+1);
+			});
+
+			for(var i = 0; i < length1+1; i++) {
+				c[i][0] = 0;
+			}
+			for(var j = 0; j < length2+1; j++) {
+				c[0][j] = 0;
+			}
+			for(i = 1; i < length1+1; i++) {
+				for(j = 1; j < length2+1; j++) {
+					if(word1.charAt(i) == word2.charAt(j)) {
+						c[i][j] = c[i-1][j-1] + 1;
+					}
+					else {
+						c[i][j] = Math.max(c[i][j-1], c[i-1][j]);
+					}
+				}
+			}
+
+			return c[length1][length2];
 		};
 
 	initApp();
