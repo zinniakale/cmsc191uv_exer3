@@ -39,7 +39,7 @@ $result = $db->query($sql);
 $rows = array();
 
 //fetch all result rows and store them in an array;
-while($row = mysqli_fetch_row($result)){
+while($row = mysqli_fetch_assoc($result)){
 	array_push($rows, $row);
 }
 

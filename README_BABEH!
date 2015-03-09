@@ -14,7 +14,7 @@ TODO:
 [√] base database class
 [√] base search script
 [√] Grade5 User Interface HTML
-[  ] Analysis of MATCH AGAINST mySQL function
-[  ] Search Result Ranking Algorithms
+[√] Analysis of MATCH AGAINST mySQL function
+[√] Search Result Ranking Algorithms
 [√] Course desc data
 [√] Non-grade5 User Interface (HTML + CSS)

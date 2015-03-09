@@ -93,10 +93,13 @@ $(document).ready(function() {
 					scrolloffset = 20,
 					// trims score value to just 4 decimal places
 					trimScore = function(score) {
+						/*
 						var whole = score.slice(0, score.indexOf(".")),
 							floating = score.slice(score.indexOf("."), score.indexOf(".")+5);
 
 						return whole+floating;
+						*/
+						return +score.toFixed(4);
 					};
 
 					if(algo1scrolltop >= (algo1scrollheight - (algo1clientheight + scrolloffset)) && algo1CurrentDisplayCount < resultCount) {
@@ -106,7 +109,7 @@ $(document).ready(function() {
 
 						for(i = 0; algo1CurrentDisplayCount + i < resultCount && i < 10; i++) {
 							var row = algo1.rankedResult[i+algo1CurrentDisplayCount],
-								insert = "<li class='result insert'><div class='resultheader'><span class='coursecode'>"+ row[0] +"</span><span class='coursename'>"+ row[1] +"</span><span class='coursecredit'>"+row[3]+".0</span></div><div class='coursedesc'>"+row[2]+"</div><div class='score'>"+trimScore(row[4])+"</div></li>";
+								insert = "<li class='result insert'><div class='resultheader'><span class='coursecode'>"+ row.coursecode +"</span><span class='coursename'>"+ row.coursename +"</span><span class='coursecredit'>"+row.coursecredit+".0</span></div><div class='coursedesc'>"+row.coursedesc+"</div><div class='score'>"+trimScore(row.score)+"</div></li>";
 								
 							insertItem(insert, algo1Results, i);
 						}
@@ -130,10 +133,14 @@ $(document).ready(function() {
 					scrolloffset = 20,
 					// trims score value to just 4 decimal places
 					trimScore = function(score) {
+						/* legacy code
 						var whole = score.slice(0, score.indexOf(".")),
 							floating = score.slice(score.indexOf("."), score.indexOf(".")+5);
 
 						return whole+floating;
+						*/
+						
+						return +score.toFixed(4); //MAGIC
 					};
 
 					if(algo2scrolltop >= (algo2scrollheight - (algo2clientheight + scrolloffset)) && algo2CurrentDisplayCount < resultCount) {
@@ -143,7 +150,7 @@ $(document).ready(function() {
 
 						for(i = 0; algo2CurrentDisplayCount + i < resultCount && i < 10; i++) {
 							var row = algo2.rankedResult[i + algo2CurrentDisplayCount],
-								insert = "<li class='result insert'><div class='resultheader'><span class='coursecode'>"+ row[0] +"</span><span class='coursename'>"+ row[1] +"</span><span class='coursecredit'>"+row[3]+".0</span></div><div class='coursedesc'>"+row[2]+"</div><div class='score'>"+trimScore(row[4])+"</div></li>";
+								insert = "<li class='result insert'><div class='resultheader'><span class='coursecode'>"+ row.coursecode +"</span><span class='coursename'>"+ row.coursename +"</span><span class='coursecredit'>"+row.coursecredit+".0</span></div><div class='coursedesc'>"+row.coursedesc+"</div><div class='score'>"+trimScore(row.score)+"</div></li>";
 								
 							insertItem(insert, algo2Results, i);
 						}
@@ -153,6 +160,13 @@ $(document).ready(function() {
 						else $('#algo2count').html("We found "+resultCount+" items. Here's "+algo2.displayCount+" of them.");
 					}
 			});
+		},
+		
+		//descending
+		compareScore = function (a , b){
+			if(a.score < b.score) return 1;
+			else if(a.score > b.score) return -1;
+			else return 0;
 		},
 
 		// initializes submit event
@@ -165,26 +179,30 @@ $(document).ready(function() {
 				var $form = $(this),
 					serializedData = $form.serialize(); // the query from user
 
-
 				// accessing the database server
-				$.post('http://localhost/cmsc191/server/search.php', serializedData, function(result) {
+				$.post('../server/search.php', serializedData, function(result) {
 					var data = JSON.parse(result),
 						trimScore = function(score) {
-							var whole = score.slice(0, score.indexOf(".")),
+							/* legacy code
+								var whole = score.slice(0, score.indexOf(".")),
 								floating = score.slice(score.indexOf("."), score.indexOf(".")+5);
 
-							return whole+floating;
+								return whole+floating;
+							*/
+							
+							return +score.toFixed(4);
 						};
-
 					algo1 = {};
 					algo2 = {};	
 
+					data.query = $("#input").val();
 					resultCount = data.length;
+					
 					algo1.displayCount = 10;
 					algo2.displayCount = 10;
 					algo1.rankedResult = rankUsingAlgo1(data); // ranks the results using algo1
 					algo2.rankedResult = rankUsingAlgo2(data); // ranks the results using algo2
-
+					
 					var algo1Results = $('#algo1results'),
 						algo2Results = $('#algo2results');
 
@@ -201,7 +219,7 @@ $(document).ready(function() {
 					if(data.length > 0) {
 						for(var i = 0; i < 10; i++) {
 							var row = algo1.rankedResult[i],
-								insert = "<li class='result insert'><div class='resultheader'><span class='coursecode'>"+ row[0] +"</span><span class='coursename'>"+ row[1] +"</span><span class='coursecredit'>"+row[3]+".0</span></div><div class='coursedesc'>"+row[2]+"</div><div class='score'>"+trimScore(row[4])+"</div></li>";
+								insert = "<li class='result insert'><div class='resultheader'><span class='coursecode'>"+ row.coursecode +"</span><span class='coursename'>"+ row.coursename +"</span><span class='coursecredit'>"+row.coursecredit+".0</span></div><div class='coursedesc'>"+row.coursedesc+"</div><div class='score'>"+trimScore(row.score)+"</div></li>";
 								
 							insertItem(insert, algo1Results, i);
 						}
@@ -209,7 +227,7 @@ $(document).ready(function() {
 						
 						for(i = 0; i < 10; i++) {
 							var row = algo2.rankedResult[i],
-								insert = "<li class='result insert'><div class='resultheader'><span class='coursecode'>"+ row[0] +"</span><span class='coursename'>"+ row[1] +"</span><span class='coursecredit'>"+row[3]+".0</span></div><div class='coursedesc'>"+row[2]+"</div><div class='score'>"+trimScore(row[4])+"</div></li>";
+								insert = "<li class='result insert'><div class='resultheader'><span class='coursecode'>"+ row.coursecode +"</span><span class='coursename'>"+ row.coursename +"</span><span class='coursecredit'>"+row.coursecredit+".0</span></div><div class='coursedesc'>"+row.coursedesc+"</div><div class='score'>"+trimScore(row.score)+"</div></li>";
 
 							insertItem(insert, algo2Results, i+3);
 						}
@@ -231,45 +249,51 @@ $(document).ready(function() {
 			});
 		},
 
-		// this is where tha algorithm 1 for sorting and ranking the results will be put
-		rankUsingAlgo1 = function(arr) {
-			var result = [];
-
-			$.each(arr, function(i, item) {
-				var desc = item[2];
-				var words = $(desc).split(' ');
-				$.each()
+		// this is where the algorithm 1 for sorting and ranking the results will be put
+		rankUsingAlgo1 = function(data) {
+			var result = JSON.parse(JSON.stringify(data));
+			
+			$.each(result, function(i, course) {
+				var words = course.coursedesc.split(' ');
+				
+				var scoreChange = 0;
+				
+				$.each(words, function(j, word){
+					scoreChange += (0.5*LCS(data.query, word))/data.query.length;
+				});
+				
+				course.score = parseInt(course.score) + scoreChange;
 			});
-
-			// use solvelcs
-
-			return result;
+			
+			// use solve lcs
+			
+			return result.sort(compareScore);
 		},
 
 		// this is where the algorithm 2 for sorting and ranking the results will be put
-		rankUsingAlgo2 = function(arr) {
-			var result = array;
+		rankUsingAlgo2 = function(data) {
+			var result = JSON.parse(JSON.stringify(data));
 
-			
-			return result;
-		},
+			$.each(result, function(i, course) {
+				var words = course.coursedesc.split(' ');
 
-		// inserts the new item to the pane with anumations
-		insertItem = function(item, target, delay) {
-			target.append(item);
-			var child = target.find('.insert');
-			$(child).css({
-				top : '15px',
-				opacity : 0
-			}).delay(delay*200).animate({
-				top : '0px',
-				opacity : 1
-			}, 400, function() {
-				$(this).removeClass('insert');
+				var scoreChange = 0;
+				
+				$.each(words, function(j, word){
+					scoreChange += 0.5*(countMatchedCharacters(data.query, word) + LCSubstr(data.query, word))/(2 * data.query.length);
+				});
+				
+				course.score = parseInt(course.score) + scoreChange;
 			});
+			
+			return result.sort(compareScore);
 		},
-
-		solveLCS = function(word1, word2) {
+		
+		 /**
+		  *@param a string A (query string)
+		  *@param b string B
+		  */
+		LCS = function(word1, word2) {
 			var length1 = word1.length;
 			var length2 = word2.length;
 			var c = new Array(length1+1);
@@ -295,8 +319,68 @@ $(document).ready(function() {
 			}
 
 			return c[length1][length2];
-		};
+		},
 
+		 countMatchedCharacters = function(a, b){
+			var count = 0;
+			for(var i = 0 ; i < a.length && i < b.length; i++){
+				 if(a[i] == b[i]) count++;
+			}
+			return count;
+		 },
+		
+		/**
+		*
+		*/
+		 LCSubstr = function(a, b){
+				 // init max value
+				var longestCommonSubstring = 0;
+				// init 2D array with 0
+				var table = [],
+						len1 = a.length,
+						len2 = b.length,
+						row, col;
+				for(row = 0; row <= len1; row++){
+					table[row] = [];
+					for(col = 0; col <= len2; col++){
+						table[row][col] = 0;
+					}
+				}
+				// fill table
+					var i, j;
+				for(i = 0; i < len1; i++){
+					for(j = 0; j < len2; j++){
+						if(a[i]==b[j]){
+							if(table[i][j] == 0){
+								table[i+1][j+1] = 1;
+							} else {
+								table[i+1][j+1] = table[i][j] + 1;
+							}
+							if(table[i+1][j+1] > longestCommonSubstring){
+								longestCommonSubstring = table[i+1][j+1];
+							}
+						} else {
+							table[i+1][j+1] = 0;
+						}
+					}
+				}
+				return longestCommonSubstring;
+		 },
+	
+		// inserts the new item to the pane with anumations
+		insertItem = function(item, target, delay) {
+			target.append(item);
+			var child = target.find('.insert');
+			$(child).css({
+				top : '15px',
+				opacity : 0
+			}).delay(delay*200).animate({
+				top : '0px',
+				opacity : 1
+			}, 400, function() {
+				$(this).removeClass('insert');
+			});
+		};
 	initApp();
 	initActions();
 	initSubmit();
