@@ -62,18 +62,20 @@ $(document).ready(function() {
 						$('#main #searchwrapper form').addClass('shrink');
 					}
 				}, 3000);
+				$('#resultswrapper #loader').fadeIn(200);
 			});
 
 			// closes the search panel
 			// resets newlyOpened variable to clear the panel
 			$('#main #searchwrapper #closebutton').on('click', function() {
 				$(this).css('-webkit-transition-delay', '0s');
-				$('#main').removeClass('open');
+				$('#main').css('-webkit-transition-duration', '0.5s').removeClass('open');
 				searchOpen = false;
 
 				var self = this;
 				$('#main #searchwrapper').one('webkitTransitionEnd', function() {
 					$(self).css('-webkit-transition-delay', '0.3s');
+					$(this).css('-webkit-transition-duration', '0.3s');
 					$("#main #searchwrapper form #input").val('');
 					$("#resultswrapper .algowrapper").hide();
 					newlyOpened = true;
@@ -133,13 +135,6 @@ $(document).ready(function() {
 					scrolloffset = 20,
 					// trims score value to just 4 decimal places
 					trimScore = function(score) {
-						/* legacy code
-						var whole = score.slice(0, score.indexOf(".")),
-							floating = score.slice(score.indexOf("."), score.indexOf(".")+5);
-
-						return whole+floating;
-						*/
-						
 						return +score.toFixed(4); //MAGIC
 					};
 
@@ -182,14 +177,7 @@ $(document).ready(function() {
 				// accessing the database server
 				$.post('../server/search.php', serializedData, function(result) {
 					var data = JSON.parse(result),
-						trimScore = function(score) {
-							/* legacy code
-								var whole = score.slice(0, score.indexOf(".")),
-								floating = score.slice(score.indexOf("."), score.indexOf(".")+5);
-
-								return whole+floating;
-							*/
-							
+						trimScore = function(score) {					
 							return +score.toFixed(4);
 						};
 					algo1 = {};
@@ -246,6 +234,7 @@ $(document).ready(function() {
 					}
 				});
 				
+				$('#resultswrapper #loader').fadeOut(200);
 			});
 		},
 
@@ -270,7 +259,6 @@ $(document).ready(function() {
 			// use solve lcs
 			
 			return result.sort(compareScore);
-			
 		},
 
 		// this is where the algorithm 2 for sorting and ranking the results will be put
