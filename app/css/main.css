@@ -14,12 +14,37 @@ body {
 	position: absolute;
 }
 
+#homedisplay {
+	font-family: 'Sketch Rockwell';
+	font-size: 10em;
+	width: 850px;
+	height: 150px;
+	/*border: 1px solid black;*/
+	position: absolute;
+	top: 200px;
+	left: calc((100% - 800px) / 2);
+	color: #ff3d00;
+	text-align: center;
+	line-height: 150px;
+	text-shadow: 1px 1px 100px rgba(255, 255, 255, 0.8);
+	-webkit-animation: glowing 1s infinite alternate;
+}
+
+@-webkit-keyframes glowing {
+	from {
+		text-shadow: 1px 1px 100px rgba(255, 255, 255, 0.8);
+	}
+	to {
+		text-shadow: 1px 1px 30px rgba(255, 255, 255, 0.8);
+	}
+}
+
 #searchwrapper {
 	width: 440px;
 	height: 50px;
 	background: #ffffff;
 	position: relative;
-	top: calc((100% - 140px) / 2);
+	top: calc((100% + 250px) / 2);
 	margin: auto;
 	box-shadow: 1px 1px 5px rgba(0,0,0,0.5);
 	border-radius: 2px;
@@ -258,6 +283,47 @@ body {
 	-webkit-transition-duration: 0.5s, 1s;
 	-webkit-transition-delay: 0.3s;
 	-webkit-transition-timing-function: ease-in-out;
+}
+
+#searchwrapper #loader {
+	display: hidden;
+}
+
+#searchwrapper #loader.display {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	border: 1px solid black;
+	top: 0;
+	left: 0;
+	z-index: 1000;
+	-webkit-transform-style: preserve-3d;
+}
+
+#searchwrapper #loader.display::after {
+	width: 100px;
+	height: 100px;
+	position: absolute;
+	top: calc((100% - 120px) / 2);
+	left: calc((100% - 100px) / 2);
+	content: '';
+	border-radius: 50%;
+	border-width: 15px;
+	border-right-color: #757575;
+	border-top-color: #bdbdbd;
+	border-left-color: #e0e0e0;
+	border-bottom-color: #f5f5f5;
+	border-style: solid;
+	-webkit-animation: load 0.8s linear infinite;
+}
+
+@-webkit-keyframes load {
+	from {
+		-webkit-transform: rotateZ(0deg);
+	}
+	to {
+		-webkit-transform: rotateZ(360deg);
+	}
 }
 
 #main.open #searchwrapper {
