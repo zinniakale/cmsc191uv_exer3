@@ -253,36 +253,40 @@ $(document).ready(function() {
 		rankUsingAlgo1 = function(data) {
 			var result = JSON.parse(JSON.stringify(data));
 			
+			var queryWords = data.query.split(' ');
 			$.each(result, function(i, course) {
 				var words = course.coursedesc.split(' ');
 				
 				var scoreChange = 0;
 				
-				$.each(words, function(j, word){
-					scoreChange += (0.5*LCS(data.query, word))/data.query.length;
-				});
-				
+				for(var i = 0; i < queryWords.length; i++){
+					$.each(words, function(j, word){
+						scoreChange += (0.5*LCS(queryWords[i], word))/data.query.length;
+					});	
+				}
 				course.score = parseInt(course.score) + scoreChange;
 			});
 			
 			// use solve lcs
 			
 			return result.sort(compareScore);
+			
 		},
 
 		// this is where the algorithm 2 for sorting and ranking the results will be put
 		rankUsingAlgo2 = function(data) {
 			var result = JSON.parse(JSON.stringify(data));
 
+			var queryWords = data.query.split(' ');
 			$.each(result, function(i, course) {
 				var words = course.coursedesc.split(' ');
 
 				var scoreChange = 0;
-				
-				$.each(words, function(j, word){
-					scoreChange += 0.5*(countMatchedCharacters(data.query, word) + LCSubstr(data.query, word))/(2 * data.query.length);
-				});
-				
+				for(var i = 0; i < queryWords.length; i++){
+					$.each(words, function(j, word){
+						scoreChange += 0.5*(countMatchedCharacters(data.query, word) + LCSubstr(data.query, word))/(2 * data.query.length);
+					});
+				}
 				course.score = parseInt(course.score) + scoreChange;
 			});
 			
@@ -317,7 +321,6 @@ $(document).ready(function() {
 					}
 				}
 			}
-
 			return c[length1][length2];
 		},
 
